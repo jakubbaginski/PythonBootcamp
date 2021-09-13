@@ -27,13 +27,6 @@ class MotivationQuote:
     def random_quote(self):
         return self.data[random.randint(0, len(self.data) - 1)]
 
-    def random_quote_html(self):
-        text = self.random_quote()
-        return f"<html><body>" \
-               f"<h3><i>{text['text']}</i><br></h3>" \
-               f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;{text['author']}" \
-               f"</body></html>"
-
 
 class EmailSender:
 
@@ -66,15 +59,10 @@ class EmailSender:
             message['To'] = self.secret_data['email_to']
 
             # optional parameters
-            subject: str = self.secret_data.get('subject')
+            message['Subject'] = self.secret_data.get('subject')
             message_text_html: str = self.secret_data.get('message_text_html')
             message_text_plain: str = self.secret_data.get('message_text_plain')
 
-            if message_text_html is None and message_text_plain is None and subject is None:
-                message_text_html = MotivationQuote().random_quote_html()
-                subject = MotivationQuote.TITLE
-
-            message['Subject'] = subject
             if message_text_plain is not None:
                 message.attach(MIMEText(message_text_plain.strip(), 'plain'))
             if message_text_html is not None:
@@ -91,11 +79,17 @@ class MondayQuoteSender(EmailSender):
         super(MondayQuoteSender, self).__init__(**kwargs)
 
     # Send a Motivation Quote if it's Monday
-    def send_quote(self, day_of_week=0):
+    def send(self, day_of_week=0):
         if day_of_week == datetime.date.today().weekday():
-            self.send()
-
+            quote = MotivationQuote().random_quote()
+            self.secret_data['message_text_plain'] = quote['text']+'\n\n'+quote['author']
+            self.secret_data['message_text_html'] = f"<html><body>" \
+                       f"<h3><i>{quote['text']}</i><br></h3>" \
+                       f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;{quote['author']}" \
+                       f"</body></html>"
+            self.secret_data['subject'] = MotivationQuote.TITLE
+            super().send()
 
 if __name__ == '__main__':
     # TODO: delete line below (implement tests instead)
-    MondayQuoteSender(config_file_name='data/secret.json').send_quote(1)
+    MondayQuoteSender(config_file_name='data/secret.json').send(1)
