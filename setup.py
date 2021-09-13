@@ -7,7 +7,7 @@ setup(
     packages=find_packages('./src/'),
     package_dir={'': 'src'},
     package_data={'pythonbootcamp.day032': ['data/*.txt']},
-
+    exclude_package_data={'pythonbootcamp.day032': ['*secret*']},
     author='Jakub Bagiński',
     author_email='jakub.baginski@gmail.com',
     url='https://github.com/jakubbaginski/pythonbootcamp',
