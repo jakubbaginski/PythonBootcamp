@@ -13,7 +13,6 @@ from email.mime.multipart import MIMEMultipart
 
 
 class MotivationQuote:
-
     TITLE = 'Motivation Quote'
 
     def __init__(self):
@@ -40,7 +39,7 @@ class EmailSender:
 
         # this line allows to overwrite data from config file
         self.secret_data.update({key: kwargs[key] for key in kwargs if key in
-                            ['host', 'port', 'email_from', 'email_from_passwd', 'email_to']})
+                                 ['host', 'port', 'email_from', 'email_from_passwd', 'email_to']})
 
     def send(self, **kwargs):
 
@@ -78,17 +77,19 @@ class MondayQuoteSender(EmailSender):
     def __init__(self, **kwargs):
         super(MondayQuoteSender, self).__init__(**kwargs)
 
-    # Send a Motivation Quote if it's Monday
+    # Send a random Motivation Quote if it's Monday
     def send(self, day_of_week=0):
         if day_of_week == datetime.date.today().weekday():
             quote = MotivationQuote().random_quote()
-            self.secret_data['message_text_plain'] = quote['text']+'\n\n'+quote['author']
+            self.secret_data['message_text_plain'] = quote['text'] + '\n\n' + quote['author']
             self.secret_data['message_text_html'] = f"<html><body>" \
-                       f"<h3><i>{quote['text']}</i><br></h3>" \
-                       f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;{quote['author']}" \
-                       f"</body></html>"
+                                                    f"<h3><i>{quote['text']}</i><br></h3>" \
+                                                    f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;" \
+                                                    f"{quote['author']}" \
+                                                    f"</body></html>"
             self.secret_data['subject'] = MotivationQuote.TITLE
             super().send()
+
 
 if __name__ == '__main__':
     # TODO: delete line below (implement tests instead)
