@@ -6,7 +6,8 @@ setup(
     long_description='Python Pro Bootcamp 2021 from Udemy',
     packages=find_packages('./src/'),
     package_dir={'': 'src'},
-    package_data={'pythonbootcamp.day032': ['data/*.txt', 'data/letter_templates/letter*']},
+    package_data={'pythonbootcamp.day032': ['data/*.txt', 'data/letter_templates/letter*'],
+                  'pythonbootcamp.day033': ['img/*.png']},
     exclude_package_data={'pythonbootcamp.day032': ['*secret*']},
     author='Jakub Bagiński',
     author_email='jakub.baginski@gmail.com',
@@ -16,6 +17,7 @@ setup(
     install_requires=[
         'panda',
         'setuptools'
+        'requests'
     ],
     tests_require=[
         'pytest',
