@@ -107,6 +107,7 @@ class AutomatedBirthdayWisher:
             template = random.choice(self.templates)
             with open(pkg_resources.resource_filename(__name__, 'data/letter_templates/' + template)) as file:
                 message = re.sub(r'\[NAME]', self.data[person]['name'], file.read())
+                message = re.sub(r'\[SENDER_NAME]', kwargs['sender_name'], message)
                 EmailSender(**kwargs).send(message_text_plain=message,
                                            email_to=self.data[person]['email'],
                                            subject=f'Happy Birthday {self.data[person]["name"]}')
