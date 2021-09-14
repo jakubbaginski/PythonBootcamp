@@ -10,6 +10,7 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import pandas
 
 
 class MotivationQuote:
@@ -91,6 +92,27 @@ class MondayQuoteSender(EmailSender):
             super().send()
 
 
+class AutomatedBirthdayWisher:
+
+    def __init__(self):
+        self.templates = pkg_resources.safe_listdir('data/letter_templates')
+        with open('data/birthdays.csv', 'r') as file:
+            self.data: dict = pandas.read_csv(file).transpose().to_dict()
+            self.data = {key: self.data[key] for key in self.data
+                         if self.data[key]['month'] - datetime.date.today().month == 0 and
+                         int(self.data[key]['day']) == int(datetime.date.today().day)}
+
+    def run(self, **kwargs):
+        for person in self.data:
+            template = random.choice(self.templates)
+            with open(pkg_resources.resource_filename(__name__, 'data/letter_templates/' + template)) as file:
+                message = re.sub(r'\[NAME]', self.data[person]['name'], file.read())
+                EmailSender(**kwargs).send(message_text_plain=message,
+                                           email_to=self.data[person]['email'],
+                                           subject=f'Happy Birthday {self.data[person]["name"]}')
+
+
 if __name__ == '__main__':
     # TODO: delete line below (implement tests instead)
-    MondayQuoteSender(config_file_name='data/secret.json').send(1)
+    # MondayQuoteSender(config_file_name='data/secret.json').send(1)
+    AutomatedBirthdayWisher().run(config_file_name='data/secret.json')
