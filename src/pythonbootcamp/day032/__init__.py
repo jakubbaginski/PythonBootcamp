@@ -95,7 +95,7 @@ class MondayQuoteSender(EmailSender):
 class AutomatedBirthdayWisher:
 
     def __init__(self):
-        self.templates = pkg_resources.safe_listdir('data/letter_templates')
+        self.templates = pkg_resources.resource_listdir(__name__, 'data/letter_templates')
         with open('data/birthdays.csv', 'r') as file:
             self.data: dict = pandas.read_csv(file).transpose().to_dict()
             self.data = {key: self.data[key] for key in self.data

@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/src/pythonbootcamp.egg-info" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (pythonbootcamp)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
