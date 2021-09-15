@@ -7,6 +7,7 @@ import geocoder
 from datetime import datetime as dt
 import pythonbootcamp.day032
 
+
 class KanyeApp(tkinter.Tk):
 
     def __init__(self):
@@ -84,7 +85,6 @@ class ISSTracker:
                                                   message_text_plain=f"{self.iss_position}\n{self.observer}")
 
     def main_loop(self):
-
         while True:
             print('checking ...')
             time.sleep(60)
