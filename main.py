@@ -7,4 +7,4 @@ os.chdir('../')
 
 
 # pythonbootcamp.day033.KanyeApp().mainloop()
-pythonbootcamp.day033.ISSTracker('Gdynia').main_loop()
+pythonbootcamp.day033.ISSTracker('Gdynia, Poland').main_loop()

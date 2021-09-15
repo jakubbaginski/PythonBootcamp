@@ -37,12 +37,15 @@ class KanyeApp(tkinter.Tk):
 
 class ISSTracker:
 
+    subject = 'ISS is Visible!'
+    delay = 20
+
     def __init__(self, location: str):
         # geolocation API
         g = geocoder.osm(location)
         self.observer = {
-            'latitude': float(g.geojson['features'][0]['properties']['lat']),
-            'longitude': float(g.geojson['features'][0]['properties']['lng'])
+            'longitude': float(g.geojson['features'][0]['properties']['lng']),
+            'latitude': float(g.geojson['features'][0]['properties']['lat'])
         }
 
         self.sunset_times: dict = {}
@@ -74,20 +77,36 @@ class ISSTracker:
         self.iss_position['latitude'] = float(self.iss_position['latitude'])
         self.iss_position['longitude'] = float(self.iss_position['longitude'])
 
-    def is_iss_overhead(self):
+    def is_iss_overhead(self) -> bool:
         # has to be night
         if self.sunset_times['sunset'] > self.curr_datetime or \
                 self.sunset_times['sunrise'] < self.curr_datetime:
+            # +/- 5 diff between observer and iss (both longitude and latitude
             if - 5 < self.iss_position['latitude'] - self.observer['latitude'] < 5 and \
                     - 5 < self.iss_position['longitude'] - self.observer['longitude'] < 5:
                 pythonbootcamp.day032.EmailSender(config_file_name='data/secret.json').send(
-                                                  subject='ISS visible',
-                                                  message_text_plain=f"{self.iss_position}\n{self.observer}")
+                    subject=self.subject,
+                    message_text_plain=self.format_data_to_print())
+                return True
+        return False
+
+    def format_data_to_print(self):
+        def format_position(**kwargs):
+            return {key: f"{kwargs[key]:0.08f}".rjust(13) for key in kwargs if key in ['latitude', 'longitude']}
+
+        return f"ISS:{format_position(**self.iss_position)}\nYou:{format_position(**self.observer)}"
+
+    def run_check(self) -> bool:
+        self.get_sunset_times()
+        self.get_iss_position()
+        return self.is_iss_overhead()
 
     def main_loop(self):
         while True:
-            print('checking ...')
-            time.sleep(60)
-            self.get_sunset_times()
-            self.get_iss_position()
-            self.is_iss_overhead()
+            if self.run_check():
+                print(self.subject)
+            print(self.format_data_to_print())
+            for i in range(self.delay):
+                print('waiting .' if i == 0 else '.', end='')
+                time.sleep(1)
+            print('.')
