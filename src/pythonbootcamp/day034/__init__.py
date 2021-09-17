@@ -114,7 +114,7 @@ class TriviaAPI:
         return False
 
     def get_new_not_answered_question(self, **kwargs):
-        while self.is_in_answered(self.get_new_question()):
+        while self.is_in_answered(self.get_new_question(**kwargs)):
             pass
         return self.question
 
