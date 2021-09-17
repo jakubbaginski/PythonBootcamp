@@ -42,11 +42,14 @@ class ISSTracker:
 
     def __init__(self, location: str):
         # geolocation API
-        g = geocoder.osm(location)
-        self.observer = {
-            'longitude': float(g.geojson['features'][0]['properties']['lng']),
-            'latitude': float(g.geojson['features'][0]['properties']['lat'])
-        }
+        try:
+            g = geocoder.osm(location)
+            self.observer = {
+                'longitude': float(g.geojson['features'][0]['properties']['lng']),
+                'latitude': float(g.geojson['features'][0]['properties']['lat'])
+            }
+        except IndexError:
+            raise requests.exceptions.ConnectionError
 
         self.sunset_times: dict = {}
         self.iss_position: dict = {}
@@ -103,10 +106,17 @@ class ISSTracker:
 
     def main_loop(self):
         while True:
-            if self.run_check():
-                print(self.subject)
-            print(self.format_data_to_print())
-            for i in range(self.delay):
-                print('waiting .' if i == 0 else '.', end='')
-                time.sleep(1)
-            print('.')
+            try:
+                text = ''
+                if self.run_check():
+                    print(self.subject)
+            except requests.exceptions.ConnectionError:
+                text = "Connection error ."
+            else:
+                print(self.format_data_to_print())
+                text = "Waiting ."
+            finally:
+                for i in range(self.delay):
+                    print(text if i == 0 else '.', end='')
+                    time.sleep(1)
+                print('.')

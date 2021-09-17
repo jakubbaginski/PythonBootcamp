@@ -17,7 +17,8 @@ setup(
     install_requires=[
         'panda',
         'setuptools'
-        'requests'
+        'requests',
+        'ttkthemes'
     ],
     tests_require=[
         'pytest',
