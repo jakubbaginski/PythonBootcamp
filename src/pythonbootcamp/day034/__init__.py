@@ -42,8 +42,8 @@ class StyleTk(ttkthemes.ThemedTk):
                              padx=0, pady=0)
 
         self.style.configure('TButton', font=('', self.FONT_SIZE_BUTTON, ''),
-                             highlightthickness=0)
-        self.style.configure('TCanvas', font=('', self.FONT_SIZE_BUTTON, ''),
+                             highlightthickness=0, padx=0, pady=0, background=self.YELLOW)
+        self.style.configure('TCanvas', font=('', self.FONT_SIZE_BUTTON, ''), background=self.YELLOW,
                              highlightthickness=0, padx=0, pady=0)
 
         my_map = [('active', self.YELLOW),
@@ -184,7 +184,7 @@ class TriviaQuizzerApp(StyleTk):
 
         self.score_label.grid(column=2, row=0, columnspan=1, sticky=tkinter.E)
         self.canvas.grid(column=1, row=1, columnspan=2)
-        self.separator.grid(column=1, row=2, columnspan=2, sticky=tkinter.NE+tkinter.NW+tkinter.SE+tkinter.SW)
+        #self.separator.grid(column=1, row=2, columnspan=2, sticky=tkinter.NE+tkinter.NW+tkinter.SE+tkinter.SW)
         self.buttons[True].grid(column=1, row=3, columnspan=1)
         self.buttons[False].grid(column=2, row=3, columnspan=1)
         self.update_score_label()
