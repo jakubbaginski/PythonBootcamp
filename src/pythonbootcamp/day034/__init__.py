@@ -3,25 +3,31 @@ import time
 import tkinter
 import tkinter.ttk
 import ttkthemes
+from PIL import Image, ImageTk
+
+import pkg_resources
 import requests
 import base64
 import hashlib
 
 
-class YaruStyleTk(ttkthemes.ThemedTk):
-
-    YELLOW = 'yellow'
-    PINK = 'pink'
+class StyleTk(ttkthemes.ThemedTk):
+    YELLOW = '#f7f5dd'
+    PINK = '#e2979c'
+    GREEN = '#9bdeac'
+    RED = '#e7305b'
+    WHITE = '#FFFFFF'
     FONT_NAME = 'Arial'
     FONT_SIZE = 20
+    FONT_SIZE_BUTTON = 15
 
-    def __init__(self):
-        super(YaruStyleTk, self).__init__()
+    def __init__(self, theme='yaru'):
+        super(StyleTk, self).__init__()
         self.style = ttkthemes.ThemedStyle()
-        self.style_setup()
+        self.style_setup(theme)
 
-    def style_setup(self):
-        self.style.set_theme('ubuntu')
+    def style_setup(self, theme):
+        self.style.set_theme(theme)
         self.style.configure('.',
                              font=(self.FONT_NAME, self.FONT_SIZE),
                              background=self.YELLOW,
@@ -34,7 +40,11 @@ class YaruStyleTk(ttkthemes.ThemedTk):
                              highlightthickness=0,
                              borderwidth=0,
                              padx=0, pady=0)
-        self.style.configure('TButton', font=('', 15, ''))
+
+        self.style.configure('TButton', font=('', self.FONT_SIZE_BUTTON, ''),
+                             highlightthickness=0)
+        self.style.configure('TCanvas', font=('', self.FONT_SIZE_BUTTON, ''),
+                             highlightthickness=0, padx=0, pady=0)
 
         my_map = [('active', self.YELLOW),
                   ('!active', self.YELLOW),
@@ -51,7 +61,9 @@ class YaruStyleTk(ttkthemes.ThemedTk):
                   ('pressed', self.YELLOW),
                   ('!pressed', self.YELLOW),
                   ('selected', self.YELLOW),
-                  ('!selected', self.YELLOW)]
+                  ('!selected', self.YELLOW),
+                  ('readonly', self.YELLOW),
+                  ('!readonly', self.YELLOW)]
 
         self.style.map('.',
                        background=my_map,
@@ -66,7 +78,6 @@ class YaruStyleTk(ttkthemes.ThemedTk):
 
 
 class TriviaAPI:
-
     # API's URL https://opentdb.com/api_config.php
     # params of the value None are not to be passed through API
     API_PARAMS = {
@@ -119,67 +130,77 @@ class TriviaAPI:
         return self.question
 
 
-class TriviaQuizzerApp(YaruStyleTk):
-
+class TriviaQuizzerApp(StyleTk):
     NAME = 'TriviaQuizzerApp'
     SCORE_TXT = 'Score: '
+    WIDTH = 400
+    HEIGHT = 250
+    MARGIN = 20
+    SCALE = .5
 
     def __init__(self):
         super(TriviaQuizzerApp, self).__init__()
         self.title(self.NAME)
-        self.config(padx=50, pady=50)
+        self.config(padx=50, pady=50, bg=self.YELLOW)
 
         self.score = 0
         self.trivia_api = TriviaAPI()
 
-        self.canvas = tkinter.Canvas(width=300, height=100)
+        self.canvas = tkinter.Canvas(width=self.WIDTH, height=self.HEIGHT)
         self.question = None
         self.question_text = None
 
+        self.true_img = ImageTk.PhotoImage(Image.open(pkg_resources.resource_filename(__name__, 'images/true.png')).
+                                           resize((int(100 * self.SCALE), int(100 * self.SCALE)), Image.BILINEAR))
+        self.false_img = ImageTk.PhotoImage(Image.open(pkg_resources.resource_filename(__name__, 'images/false.png')).
+                                            resize((int(100 * self.SCALE), int(100 * self.SCALE)), Image.BILINEAR))
         self.buttons = {
-            True: tkinter.ttk.Button(),
-            False: tkinter.ttk.Button()
+            True: tkinter.ttk.Button(image=self.true_img),
+            False: tkinter.ttk.Button(image=self.false_img)
         }
         self.score_label = tkinter.ttk.Label()
+        self.separator = tkinter.ttk.Separator(orient='horizontal')
         self.update_score_label()
         self.set_layout_and_style()
         self.next_question()
 
     def next_question(self):
         if self.question_text is None:
-            self.question_text = self.canvas.create_text(150, 50, text='', width=290, font=('', 15, ''))
+            self.question_text = self.canvas.create_text(self.WIDTH / 2, self.HEIGHT / 2,
+                                                         text='', width=self.WIDTH - self.MARGIN,
+                                                         font=('', self.FONT_SIZE_BUTTON, ''))
         self.question = self.trivia_api.get_new_not_answered_question()
         self.canvas.itemconfig(self.question_text, text=self.question['question'])
         self.update()
 
     def update_score_label(self):
-        self.score_label.config(text=self.SCORE_TXT + str(self.score))
+        self.score_label.config(text=self.SCORE_TXT + f"{self.score:03d}")
         self.update()
 
     def set_layout_and_style(self):
-        self.canvas.itemconfig(self.question_text, justify=tkinter.CENTER)
+        self.canvas.itemconfig(self.question_text, justify=tkinter.CENTER, highlightthickness=0)
         self.buttons[True].config(text='True', command=self.answer_true)
         self.buttons[False].config(text='False', command=self.answer_false)
 
-        self.score_label.grid(column=2, row=0, columnspan=1)
+        self.score_label.grid(column=2, row=0, columnspan=1, sticky=tkinter.E)
         self.canvas.grid(column=1, row=1, columnspan=2)
-        self.buttons[True].grid(column=1, row=2, columnspan=1)
-        self.buttons[False].grid(column=2, row=2, columnspan=1)
+        self.separator.grid(column=1, row=2, columnspan=2, sticky=tkinter.NE+tkinter.NW+tkinter.SE+tkinter.SW)
+        self.buttons[True].grid(column=1, row=3, columnspan=1)
+        self.buttons[False].grid(column=2, row=3, columnspan=1)
         self.update_score_label()
         self.update()
 
     def check_if_correct_answer(self, answer):
         if self.question['correct_answer'] == answer:
-            self.trivia_api.is_in_answered(self.question, True)
+            self.trivia_api.is_in_answered(self.question, remember=True)
             self.score += 1
             self.update_score_label()
-            self.canvas.config(background='green')
-            print(self.trivia_api.answered)
+            self.canvas.config(background=self.GREEN)
         else:
-            self.canvas.config(background='red')
+            self.canvas.config(background=self.RED)
         self.update()
-        time.sleep(1)
-        self.canvas.config(background='white')
+        time.sleep(.5)
+        self.canvas.config(background=self.YELLOW)
         self.update()
         self.next_question()
 
