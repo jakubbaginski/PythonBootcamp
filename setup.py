@@ -18,7 +18,9 @@ setup(
         'panda',
         'setuptools'
         'requests',
-        'ttkthemes'
+        'ttkthemes',
+        'Pillow',
+        'future'
     ],
     tests_require=[
         'pytest',
