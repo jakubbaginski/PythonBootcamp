@@ -135,13 +135,13 @@ class TriviaQuizzerApp(StyleTk):
     SCORE_TXT = 'Score: '
     WIDTH = 400
     HEIGHT = 250
-    MARGIN = 20
+    MARGIN = 10
     SCALE = .5
 
     def __init__(self):
         super(TriviaQuizzerApp, self).__init__()
         self.title(self.NAME)
-        self.config(padx=50, pady=50, bg=self.YELLOW)
+        self.config(padx=self.MARGIN, pady=self.MARGIN, bg=self.YELLOW)
 
         self.score = 0
         self.trivia_api = TriviaAPI()
@@ -159,7 +159,6 @@ class TriviaQuizzerApp(StyleTk):
             False: tkinter.ttk.Button(image=self.false_img)
         }
         self.score_label = tkinter.ttk.Label()
-        self.separator = tkinter.ttk.Separator(orient='horizontal')
         self.update_score_label()
         self.set_layout_and_style()
         self.next_question()
@@ -178,15 +177,19 @@ class TriviaQuizzerApp(StyleTk):
         self.update()
 
     def set_layout_and_style(self):
-        self.canvas.itemconfig(self.question_text, justify=tkinter.CENTER, highlightthickness=0)
+        self.canvas.config(background=self.YELLOW)
+        self.canvas.itemconfig(self.question_text, justify=tkinter.CENTER, highlightthickness=0,
+                               outline=self.YELLOW)
         self.buttons[True].config(text='True', command=self.answer_true)
         self.buttons[False].config(text='False', command=self.answer_false)
 
-        self.score_label.grid(column=2, row=0, columnspan=1, sticky=tkinter.E)
-        self.canvas.grid(column=1, row=1, columnspan=2)
-        #self.separator.grid(column=1, row=2, columnspan=2, sticky=tkinter.NE+tkinter.NW+tkinter.SE+tkinter.SW)
-        self.buttons[True].grid(column=1, row=3, columnspan=1)
-        self.buttons[False].grid(column=2, row=3, columnspan=1)
+        self.score_label.grid(column=2, row=0, columnspan=1,
+                              sticky=tkinter.E, ipadx=0, ipady=0, padx=20, pady=self.MARGIN)
+        self.canvas.grid(column=1, row=1, columnspan=2, ipadx=0, ipady=0, padx=0, pady=0)
+        self.buttons[True].grid(column=1, row=3, columnspan=1, ipadx=0, ipady=0, padx=0,
+                                pady=self.MARGIN/2)
+        self.buttons[False].grid(column=2, row=3, columnspan=1, ipadx=0, ipady=0, padx=0,
+                                 pady=self.MARGIN/2)
         self.update_score_label()
         self.update()
 
@@ -199,7 +202,7 @@ class TriviaQuizzerApp(StyleTk):
         else:
             self.canvas.config(background=self.RED)
         self.update()
-        time.sleep(.5)
+        time.sleep(.4)
         self.canvas.config(background=self.YELLOW)
         self.update()
         self.next_question()
