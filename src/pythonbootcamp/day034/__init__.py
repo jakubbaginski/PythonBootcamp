@@ -1,5 +1,3 @@
-import logging
-import time
 import tkinter
 import tkinter.ttk
 import ttkthemes
@@ -16,7 +14,7 @@ class StyleTk(ttkthemes.ThemedTk):
     PINK = '#e2979c'
     GREEN = '#9bdeac'
     RED = '#e7305b'
-    WHITE = '#FFFFFF'
+    WHITE = '#ffffff'
     FONT_NAME = 'Arial'
     FONT_SIZE = 20
     FONT_SIZE_BUTTON = 15
@@ -43,7 +41,7 @@ class StyleTk(ttkthemes.ThemedTk):
 
         self.style.configure('TButton', font=('', self.FONT_SIZE_BUTTON, ''),
                              highlightthickness=0, padx=0, pady=0, background=self.YELLOW)
-        self.style.configure('TCanvas', font=('', self.FONT_SIZE_BUTTON, ''), background=self.YELLOW,
+        self.style.configure('TCanvas', font=('', self.FONT_SIZE_BUTTON, 'italic'), background=self.YELLOW,
                              highlightthickness=0, padx=0, pady=0)
 
         my_map = [('active', self.YELLOW),
@@ -102,9 +100,15 @@ class TriviaAPI:
 
     def get_new_question(self, **kwargs) -> dict:
         self.update_api_params(**kwargs)
-        response = requests.get('https://opentdb.com/api.php', params=self.api_params)
-        response.raise_for_status()
-        self.question: dict = response.json()['results'][0]
+        try:
+            response = requests.get('https://opentdb.com/api.php', params=self.api_params)
+            response.raise_for_status()
+            self.question: dict = response.json()['results'][0]
+        except requests.exceptions.ConnectionError:
+            self.question = {
+                'question': base64.b64encode('Connection Error'.encode()).decode(),
+                'correct_answer': base64.b64encode('None'.encode()).decode()
+            }
         self.decode_response()
         return self.question
 
@@ -118,7 +122,6 @@ class TriviaAPI:
     def is_in_answered(self, question, remember=False) -> bool:
         sha256 = hashlib.sha256(str.encode(str(question))).hexdigest()
         if sha256 in self.answered:
-            logging.warning("Answered.")
             return True
         elif remember is True:
             self.answered.append(sha256)
@@ -137,6 +140,7 @@ class TriviaQuizzerApp(StyleTk):
     HEIGHT = 250
     MARGIN = 10
     SCALE = .5
+    DELAY = 300
 
     def __init__(self):
         super(TriviaQuizzerApp, self).__init__()
@@ -167,8 +171,9 @@ class TriviaQuizzerApp(StyleTk):
         if self.question_text is None:
             self.question_text = self.canvas.create_text(self.WIDTH / 2, self.HEIGHT / 2,
                                                          text='', width=self.WIDTH - self.MARGIN,
-                                                         font=('', self.FONT_SIZE_BUTTON, ''))
+                                                         font=('', self.FONT_SIZE_BUTTON, 'italic'))
         self.question = self.trivia_api.get_new_not_answered_question()
+        self.canvas.config(background=self.YELLOW)
         self.canvas.itemconfig(self.question_text, text=self.question['question'])
         self.update()
 
@@ -202,10 +207,7 @@ class TriviaQuizzerApp(StyleTk):
         else:
             self.canvas.config(background=self.RED)
         self.update()
-        time.sleep(.4)
-        self.canvas.config(background=self.YELLOW)
-        self.update()
-        self.next_question()
+        self.after(self.DELAY, self.next_question)
 
     def answer_true(self):
         self.check_if_correct_answer('True')

@@ -7,7 +7,8 @@ setup(
     packages=find_packages('./src/'),
     package_dir={'': 'src'},
     package_data={'pythonbootcamp.day032': ['data/*.txt', 'data/letter_templates/letter*'],
-                  'pythonbootcamp.day033': ['images/*.png']},
+                  'pythonbootcamp.day033': ['images/*.png'],
+                  'pythonbootcamp.day034': ['images/*.png']},
     exclude_package_data={'pythonbootcamp.day032': ['*secret*']},
     author='Jakub Bagiński',
     author_email='jakub.baginski@gmail.com',
@@ -30,4 +31,3 @@ setup(
 )
 
 print(f'Packages found: {find_packages("./src/")}')
-
