@@ -21,7 +21,8 @@ setup(
         'requests',
         'ttkthemes',
         'Pillow',
-        'future'
+        'future',
+        'twilio'
     ],
     tests_require=[
         'pytest',
