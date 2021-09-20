@@ -2,7 +2,7 @@ import json
 import requests
 import geocoder
 from twilio.rest import Client
-
+import os
 
 class GEOLocation:
 
@@ -32,6 +32,8 @@ class Weather:
                 params = params["OWM"]
         except FileNotFoundError:
             pass
+        if os.environ.get('LC_CTYPE') is not None:
+            params.update({'lang': os.environ.get('LC_CTYPE')[0:2]})
         params.update(location.observer)
         params.update(**kwargs)
         url = params['url']
@@ -53,7 +55,7 @@ class Main:
 
     def __init__(self, hours):
         location = GEOLocation("London")
-        print(Weather(location, lang='pl').is_it_to_rain_in_next_hours(hours))
+        # print(Weather(location, lang='en').is_it_to_rain_in_next_hours(hours))
 
         with open('data/secret.json', 'r') as config_file:
             param = json.load(config_file)
