@@ -4,6 +4,7 @@ import geocoder
 from twilio.rest import Client
 import os
 
+
 class GEOLocation:
 
     def __init__(self, location: str):
