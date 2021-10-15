@@ -36,7 +36,6 @@ class KanyeApp(tkinter.Tk):
 
 
 class ISSTracker:
-
     subject = 'ISS is Visible!'
     delay = 20
 
@@ -82,15 +81,14 @@ class ISSTracker:
 
     def is_iss_overhead(self) -> bool:
         # has to be night
-        if self.sunset_times['sunset'] > self.curr_datetime or \
-                self.sunset_times['sunrise'] < self.curr_datetime:
-            # +/- 5 diff between observer and iss (both longitude and latitude
-            if - 5 < self.iss_position['latitude'] - self.observer['latitude'] < 5 and \
-                    - 5 < self.iss_position['longitude'] - self.observer['longitude'] < 5:
-                pythonbootcamp.day032.EmailSender(config_file_name='data/secret.json').send(
-                    subject=self.subject,
-                    message_text_plain=self.format_data_to_print())
-                return True
+        if (self.sunset_times['sunset'] > self.curr_datetime or
+            self.sunset_times['sunrise'] < self.curr_datetime) and \
+                - 5 < self.iss_position['latitude'] - self.observer['latitude'] < 5 and \
+                - 5 < self.iss_position['longitude'] - self.observer['longitude'] < 5:
+            pythonbootcamp.day032.EmailSender(config_file_name='data/secret.json').send(
+                subject=self.subject,
+                message_text_plain=self.format_data_to_print())
+            return True
         return False
 
     def format_data_to_print(self):
