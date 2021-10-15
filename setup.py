@@ -17,7 +17,7 @@ setup(
     license_files=['LICENSE'],
     install_requires=[
         'panda',
-        'setuptools'
+        'setuptools',
         'requests',
         'ttkthemes',
         'Pillow',

@@ -2,7 +2,7 @@ import pythonbootcamp.day032
 
 
 def test032_001():
-    assert pythonbootcamp.day032.MotivationQuote().random_quote()['author'] is not ''
+    assert pythonbootcamp.day032.MotivationQuote().random_quote()['author'] != ''
 
 
 def test032_002():

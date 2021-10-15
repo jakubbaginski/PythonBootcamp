@@ -70,7 +70,6 @@ class StyleTk(ttkthemes.ThemedTk):
                        activeforeground=my_map,
                        activebackground=my_map,
                        disabledforeground=my_map,
-                       # foreground=map,
                        indicatoron=my_map
                        )
 
@@ -78,7 +77,7 @@ class StyleTk(ttkthemes.ThemedTk):
 class TriviaAPI:
     # API's URL https://opentdb.com/api_config.php
     # params of the value None are not to be passed through API
-    API_PARAMS = {
+    DEFAULT_API_PARAMS = {
         'amount': 1,
         'type': 'boolean',
         'category': None,
@@ -88,13 +87,12 @@ class TriviaAPI:
 
     def __init__(self, **kwargs):
         self.question: dict = {}
-        self.api_params = self.API_PARAMS.copy()
+        self.api_params = self.DEFAULT_API_PARAMS.copy()
         self.update_api_params(**kwargs)
         self.answered = []
-        pass
 
     def update_api_params(self, **kwargs):
-        not_default_params = {key: kwargs[key] for key in kwargs if key in self.API_PARAMS}
+        not_default_params = {key: kwargs[key] for key in kwargs if key in self.DEFAULT_API_PARAMS}
         self.api_params.update(not_default_params)
         self.api_params = {key: self.api_params[key] for key in self.api_params if self.api_params[key] is not None}
 
@@ -129,6 +127,7 @@ class TriviaAPI:
 
     def get_new_not_answered_question(self, **kwargs):
         while self.is_in_answered(self.get_new_question(**kwargs)):
+            # try as long as new question is selected
             pass
         return self.question
 
