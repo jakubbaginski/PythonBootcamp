@@ -61,7 +61,7 @@ class MyClass:
             new_text = str(self.entry.get()).upper()
         else:
             new_text = str(self.entry.get()).lower()
-        self.label.config(text=f"{new_text} {random.randint(1, 100):03d}")
+        self.label.config(text=f"{new_text} {random.SystemRandom().randint(1, 100):03d}")
 
     def validate_entry(self, current_value, new_value):
         logging.warning(f"'{current_value}' -> '{new_value}'")

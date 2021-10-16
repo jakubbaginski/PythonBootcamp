@@ -111,7 +111,7 @@ class GameBoard:
 
         def start_position(self):
             self.goto(0, 0)
-            self.setheading(random.randint(RIGHT, FULL_ANGLE))
+            self.setheading(random.SystemRandom().randint(RIGHT, FULL_ANGLE))
             self.showturtle()
 
         def inc_step(self):
@@ -145,7 +145,7 @@ class GameBoard:
             correction = 0
             if UP - self.BALL_EXC_ANGLE < to_angle <= UP + self.BALL_EXC_ANGLE or \
                     DOWN - self.BALL_EXC_ANGLE < to_angle <= DOWN + self.BALL_EXC_ANGLE:
-                correction = random.randint(self.BALL_EXC_ANGLE, 2 * self.BALL_EXC_ANGLE)
+                correction = random.SystemRandom().randint(self.BALL_EXC_ANGLE, 2 * self.BALL_EXC_ANGLE)
                 if RIGHT < to_angle < UP or LEFT < to_angle < DOWN:
                     correction = -correction
                 # logging.warning(f"Angle correction {correction}, {to_angle} -> {to_angle + correction}")
@@ -272,10 +272,9 @@ class GameBoard:
                             self.ball.ball_speed *= .9
                             logging.info(f"Speed changed to {self.ball.ball_speed}")
                         heading = self.ball.heading()
-                        rand_heading = random.randint(-self.ball.BALL_EXC_ANGLE*2, self.ball.BALL_EXC_ANGLE*2)
+                        rand_heading = random.SystemRandom().randint(-self.ball.BALL_EXC_ANGLE*2,
+                                                                     self.ball.BALL_EXC_ANGLE*2)
                         new_heading = (1.5 * FULL_ANGLE - heading) % FULL_ANGLE
-                        # while not check_if_in_the_same_q(new_heading, new_heading + rand_heading):
-                        # rand_heading = random.randint(-self.ball.BALL_EXC_ANGLE*2, self.ball.BALL_EXC_ANGLE*2)
                         if not check_if_in_the_same_q(new_heading, new_heading + rand_heading):
                             new_heading = 0
 

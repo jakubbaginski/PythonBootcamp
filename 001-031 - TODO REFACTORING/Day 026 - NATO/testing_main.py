@@ -46,7 +46,7 @@ print(result)
 # Exercise 4 - Dictionary Comprehension Start
 
 students = ["Ala", "Ela", "Ola", "Ula", "Zuza", "Kasia", "Asia", "Gosia"]
-students_and_scores = {student: random.randint(1, 100) for student in students}
+students_and_scores = {student: random.SystemRandom().randint(1, 100) for student in students}
 students_passed = {student: score for (student, score) in students_and_scores.items() if score > 60}
 print(students_and_scores)
 print(students_passed)

@@ -13,7 +13,7 @@ class QuizBrain:
 
     def get_next_question(self):
         try:
-            result = self.question_list[random.randint(0, len(self.question_list))-1]
+            result = self.question_list[random.SystemRandom().randint(0, len(self.question_list))-1]
             self.question_list.remove(result)
             self.question_number += 1
         except IndexError:

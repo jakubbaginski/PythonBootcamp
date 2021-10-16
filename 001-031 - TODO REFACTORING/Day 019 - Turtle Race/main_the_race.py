@@ -71,7 +71,7 @@ class MyClass:
 
     def move_turtles(self):
         for turtle in self.turtles:
-            turtle.forward(random.randint(-0, self.MAX_STEP))
+            turtle.forward(random.SystemRandom().randint(-0, self.MAX_STEP))
         if not self.end_of_the_race():
             self.screen.ontimer(self.move_turtles, self.SPEED_OF_RACE)
         elif self.check_result():

@@ -46,7 +46,7 @@ class Game:
     def play_game(self):
         while self.game_is_on:
             time.sleep(self.REFRESH_TIME)
-            if random.randint(1, 6) == 1:
+            if random.SystemRandom().randint(1, 6) == 1:
                 self.car_manager.generate_car()
             self.car_manager.move_increment = self.car_manager.STARTING_MOVE_DISTANCE + \
                 self.car_manager.MOVE_INCREMENT * (self.player.level - self.player.LEVEL)

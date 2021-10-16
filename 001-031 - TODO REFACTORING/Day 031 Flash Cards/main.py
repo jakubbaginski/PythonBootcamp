@@ -105,7 +105,7 @@ class FlashCards(ThemedTk):
             self.timer.cancel()
         self.timer = threading.Timer(self.DELAY, self.flip_card)
 
-        self.card_data_index = random.randint(0, len(self.all_data)-1)
+        self.card_data_index = random.SystemRandom().randint(0, len(self.all_data)-1)
         self.card_data = self.all_data[self.card_data_index]
         self.show_flashcard()
         self.timer.start()

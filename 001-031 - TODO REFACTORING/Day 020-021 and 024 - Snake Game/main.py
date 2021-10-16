@@ -95,8 +95,8 @@ class GameBoard:
                 find_correct_food_position = True
                 # find new food position outside snake's body
                 while find_correct_food_position is True:
-                    x = random.randint(-self.max_x_y + 1, self.max_x_y - 1) * self.shape_size
-                    y = random.randint(-self.max_x_y + 1, self.max_x_y - 1) * self.shape_size
+                    x = random.SystemRandom().randint(-self.max_x_y + 1, self.max_x_y - 1) * self.shape_size
+                    y = random.SystemRandom().randint(-self.max_x_y + 1, self.max_x_y - 1) * self.shape_size
                     if snake is None or \
                             (tuple([x, y]) not in snake.body["positions"] and tuple([x, y]) != snake.head):
                         find_correct_food_position = False
@@ -152,7 +152,9 @@ class GameBoard:
             self.body["stamps"].append(int(self.make_stamp()))
             self.body["positions"].append(self.head)
             if self.color_mode == "multi":
-                self.color((random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+                self.color((random.SystemRandom().randint(0, 255),
+                            random.SystemRandom().randint(0, 255),
+                            random.SystemRandom().randint(0, 255)))
             else:
                 self.color(GameBoard.SNAKE_COLOR)
             super().forward(self.shape_size * distance)
