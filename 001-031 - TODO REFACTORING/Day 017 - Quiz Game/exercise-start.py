@@ -8,7 +8,7 @@ class User:
         self.first_name = first_name
         self.second_name = second_name
         self.last_name = last_name
-        self.id = f"{random.random() * 10e20:.0f}"
+        self.id = f"{random.SystemRandom().random() * 10e20:.0f}"
         self.followers = 0
         self.following = 0
 
