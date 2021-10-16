@@ -20,7 +20,6 @@ Result = Literal[PlayerNames.RIGHT, PlayerNames.LEFT, False]
 
 
 class GameBoard:
-
     SCREEN_COLOR = "black"
     SCREEN_WIDTH = 0.7
     SCREEN_HEIGHT = 0.7
@@ -65,7 +64,7 @@ class GameBoard:
             self.shapesize(stretch_wid=self.PADDLE_SHAPE_WIDTH, stretch_len=self.PADDLE_SHAPE_STRETCH)
             self.player: Players = player
 
-            x_position = self.getscreen().window_width()/2 - GameBoard.GamePaddle.PADDLE_MARGIN
+            x_position = self.getscreen().window_width() / 2 - GameBoard.GamePaddle.PADDLE_MARGIN
             if self.player in list(GameBoard.GamePaddle.KEYS.keys()):
                 self.setx(x_position if self.player == PlayerNames.RIGHT else -x_position)
                 self.getscreen().onkeypress(self.move_up,
@@ -74,12 +73,12 @@ class GameBoard:
                                             GameBoard.GamePaddle.KEYS[self.player][self.Directions.DOWN])
 
         def move_up(self):
-            if self.ycor() < self.getscreen().window_height()/2 - GameBoard.GamePaddle.PADDLE_STEP:
+            if self.ycor() < self.getscreen().window_height() / 2 - GameBoard.GamePaddle.PADDLE_STEP:
                 self.sety(self.ycor() + GameBoard.GamePaddle.PADDLE_STEP)
                 self.getscreen().update()
 
         def move_down(self):
-            if self.ycor() > -self.getscreen().window_height()/2 + GameBoard.GamePaddle.PADDLE_STEP:
+            if self.ycor() > -self.getscreen().window_height() / 2 + GameBoard.GamePaddle.PADDLE_STEP:
                 self.sety(self.ycor() - GameBoard.GamePaddle.PADDLE_STEP)
                 self.getscreen().update()
 
@@ -184,7 +183,7 @@ class GameBoard:
 
         def print_board(self, scores):
             self.print_result([self.X_START_POSITION, self.Y_POSITION], scores[PlayerNames.LEFT])
-            self.print_result([self.IMAGE_WIDTH*2, self.Y_POSITION], scores[PlayerNames.RIGHT])
+            self.print_result([self.IMAGE_WIDTH * 2, self.Y_POSITION], scores[PlayerNames.RIGHT])
 
     def __init__(self):
         # logging.basicConfig(level=logging.INFO)
@@ -218,55 +217,48 @@ class GameBoard:
 
     def collision_of_game_paddle_and_ball(self):
 
+        def correct_heading_to_right(angle, new_angle):
+            pairs = [[RIGHT, UP], [UP, LEFT], [LEFT, DOWN], [DOWN, FULL_ANGLE]]
+            for pair in pairs:
+                if pair[0] <= angle < pair[1] and pair[0] <= new_angle < pair[1]:
+                    return angle
+            return RIGHT
+
         if self.semaphore is False:
             # logging.error("Recursion detected: skipping one move.")
             return
-
         self.semaphore = False
 
-        def check_if_in_the_same_q(angle, new_angle):
-            return (RIGHT <= angle < UP and RIGHT <= new_angle < UP) or \
-                   (UP <= angle < LEFT and UP <= new_angle < LEFT) or \
-                   (LEFT <= angle < DOWN and LEFT <= new_angle < DOWN) or \
-                   (DOWN <= angle < FULL_ANGLE and DOWN <= new_angle < FULL_ANGLE)
-
         self.ball.move()
-        if self.skip_next_check > 0:
-            self.skip_next_check -= 1
-        else:
-            for paddle in self.game_paddle:
-                if (paddle == PlayerNames.RIGHT and
-                    self.game_paddle[paddle].xcor() - max(self.ball.BALL_SIZE, self.ball.ball_step) <=
-                    self.ball.xcor() <= self.game_paddle[paddle].xcor()) or \
-                        (paddle == PlayerNames.LEFT and
-                         self.game_paddle[paddle].xcor() <=
-                         self.ball.xcor() <=
-                         self.game_paddle[paddle].xcor() + max(self.ball.BALL_SIZE, self.ball.ball_step)):
+        self.skip_next_check -= 1
 
-                    # logging.info(f"Distance to {paddle}: {self.ball.distance(self.game_paddle[paddle])}")
-                    if self.ball.distance(self.game_paddle[paddle]) < \
-                            GameBoard.GamePaddle.PADDLE_MARGIN + self.ball.BALL_SIZE / 2:
-                        # logging.info(f"Touched {self.game_paddle[paddle].player}")
+        for paddle in self.game_paddle:
+            if ((paddle == PlayerNames.RIGHT and
+                 self.game_paddle[paddle].xcor() - max(self.ball.BALL_SIZE, self.ball.ball_step) <=
+                 self.ball.xcor() <= self.game_paddle[paddle].xcor())
+                or
+                (paddle == PlayerNames.LEFT and
+                 self.game_paddle[paddle].xcor() <=
+                 self.ball.xcor() <=
+                 self.game_paddle[paddle].xcor() + max(self.ball.BALL_SIZE, self.ball.ball_step))) \
+                    and \
+                    self.skip_next_check <= 0 \
+                    and \
+                    self.ball.distance(self.game_paddle[paddle]) < \
+                    GameBoard.GamePaddle.PADDLE_MARGIN + self.ball.BALL_SIZE / 2:
 
-                        # each time paddle touches the ball speed is increasing
-                        # self.ball.ball_step += .5
-                        if self.ball.ball_speed * .9 >= self.ball.BALL_SPEED_MAX:
-                            self.ball.ball_speed *= .9
-                            # logging.info(f"Speed changed to {self.ball.ball_speed}")
-                        heading = self.ball.heading()
-                        rand_heading = random.SystemRandom().randint(-self.ball.BALL_EXC_ANGLE*2,
-                                                                     self.ball.BALL_EXC_ANGLE*2)
-                        new_heading = (1.5 * FULL_ANGLE - heading) % FULL_ANGLE
-                        if not check_if_in_the_same_q(new_heading, new_heading + rand_heading):
-                            new_heading = 0
+                self.ball.ball_speed = max(self.ball.ball_speed * .9, self.ball.BALL_SPEED_MAX)
+                heading = self.ball.heading()
+                rand_heading = random.SystemRandom().randint(-self.ball.BALL_EXC_ANGLE * 2,
+                                                             self.ball.BALL_EXC_ANGLE * 2)
+                new_heading = (1.5 * FULL_ANGLE - heading) % FULL_ANGLE
+                new_heading = correct_heading_to_right(new_heading, new_heading + rand_heading)
 
-                        # logging.warning(f"Correcting angle {heading}: {new_heading} to {new_heading + rand_heading}")
-                        new_heading += rand_heading
-                        self.ball.setheading(new_heading)
-                        self.skip_next_check = (GameBoard.GamePaddle.PADDLE_MARGIN * 2 + self.ball.BALL_SIZE) / \
-                            self.ball.ball_step
-                    else:
-                        self.skip_next_check = 0
+                # logging.warning(f"Correcting angle {heading}: {new_heading} to {new_heading + rand_heading}")
+                new_heading += rand_heading
+                self.ball.setheading(new_heading)
+                self.skip_next_check = \
+                    (GameBoard.GamePaddle.PADDLE_MARGIN * 2 + self.ball.BALL_SIZE) / self.ball.ball_step
 
         self.screen.ontimer(self.collision_of_game_paddle_and_ball, int(self.ball.ball_speed))
 
