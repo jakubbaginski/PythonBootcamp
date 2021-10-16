@@ -3,7 +3,7 @@ __all__ = [
 
 import datetime
 import json
-import random
+import secrets
 import re
 import pkg_resources
 import smtplib
@@ -25,7 +25,7 @@ class MotivationQuote:
                      for i in range(0, len(data))}
 
     def random_quote(self):
-        return self.data[random.randint(0, len(self.data) - 1)]
+        return self.data[secrets.choice(range(0, len(self.data)))]
 
 
 class EmailSender:
@@ -104,7 +104,7 @@ class AutomatedBirthdayWisher:
 
     def run(self, **kwargs):
         for person in self.data:
-            template = random.choice(self.templates)
+            template = secrets.choice(self.templates)
             with open(pkg_resources.resource_filename(__name__, 'data/letter_templates/' + template)) as file:
                 message = re.sub(r'\[NAME]', self.data[person]['name'], file.read())
                 message = re.sub(r'\[SENDER_NAME]', kwargs['sender_name'], message)
