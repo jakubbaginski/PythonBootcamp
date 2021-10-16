@@ -2,11 +2,11 @@ import random
 import threading
 import tkinter.messagebox
 import typing
-from tkinter import *
-from tkinter.ttk import *
+from tkinter import Canvas, PhotoImage, DISABLED
+from tkinter.ttk import Button, Label
 
 import pandas
-from ttkthemes import *
+from ttkthemes import ThemedTk, ThemedStyle
 from PIL import Image, ImageTk
 
 # logging.basicConfig(level=logging.WARN)
@@ -20,7 +20,7 @@ class FlashCards(ThemedTk):
     FONT_LANG = ("Arial", 30, 'italic')
     FONT_WORD = ('Arial', 50, 'bold')
     DELAY = 5
-    TITLE = "FlashCards App"
+    APP_TITLE = "FlashCards App"
 
     def __init__(self):
         super().__init__()
@@ -123,7 +123,7 @@ class FlashCards(ThemedTk):
 
     def generate_ui(self):
         # logging.info(self.style.get_themes())
-        self.title(self.TITLE)
+        self.title(self.APP_TITLE)
 
         self.config(padx=20, pady=20, background=self.BACKGROUND_COLOR, highlightcolor=self.BACKGROUND_COLOR)
         self.canvas.config(background=self.BACKGROUND_COLOR, width=self.SCALE * self.WIDTH,
@@ -173,7 +173,6 @@ class FlashCards(ThemedTk):
                        activeforeground=my_map,
                        activebackground=my_map,
                        disabledforeground=my_map,
-                       # foreground=map,
                        indicatoron=my_map,
                        )
         self.style.map('TButton',
@@ -183,7 +182,6 @@ class FlashCards(ThemedTk):
                        activeforeground=my_map,
                        activebackground=my_map,
                        disabledforeground=my_map,
-                       # foreground=map,
                        indicatoron=my_map,
                        )
 
@@ -201,7 +199,8 @@ FlashCards().mainloop()
 #     ...     for y in x:
 #     ...
 
-# >>> a = [ [ str(a)+":"+str(b)+","+str(a/b) for a in range(0,100) if a/b <= 100 and (a/b)*b == a ] for b in range(1,100)]
+# >>> a = [ [ str(a)+":"+str(b)+","+str(a/b)
+# for a in range(0,100) if a/b <= 100 and (a/b)*b == a ] for b in range(1,100)]
 # >>> for x in a:
 #     ...     for y in x:
 #     ...             print(y)
