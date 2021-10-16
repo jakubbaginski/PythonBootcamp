@@ -5,9 +5,6 @@ student_scores = {
     "Draco": 74,
     "Neville": 62,
 }
-# 🚨 Don't change the code above 👆
-
-#TODO-1: Create an empty dictionary called student_grades.
 
 student_grades = {}
 grades = {
@@ -17,8 +14,6 @@ grades = {
     0: "Fail"
 }
 
-#TODO-2: Write your code below to add the grades to student_grades.👇
-
 for student in student_scores:
     found = False
     for grade in grades:
@@ -26,33 +21,36 @@ for student in student_scores:
             student_grades[student] = grades[grade]
             found = True
 
-        # 🚨 Don't change the code below 👇
 print(student_grades)
 
+key_country = 'country'
+key_cities = 'cities visited'
+key_visits = 'number of visits'
+key_total_visits = 'total_visits'
 
 travel_log = {
     "France": {
-        "cities visited": ["Paris", "Lille", "Dijon"],
-        "number of visits": [1,2,3]
+        key_cities: ["Paris", "Lille", "Dijon"],
+        key_visits: [1, 2, 3]
     },
     "Germany": {
-        "cities visited": ["Berlin", "Bonn"],
-        "number of visits": [3,2]
+        key_cities: ["Berlin", "Bonn"],
+        key_visits: [3,2]
     }
 }
 
 travel_log_2 = [
     {
-        "country": "France",
-        "cities visited": ["Paris", "Lille", "Dijon"],
-        "number of visits": [1,2,3],
-        "total visits": 2
+        key_country: "France",
+        key_cities: ["Paris", "Lille", "Dijon"],
+        key_visits: [1, 2, 3],
+        key_total_visits: 2
     },
     {
-        "country": "Germany",
-        "cities visited": ["Berlin", "Bonn"],
-        "number of visits": [3,2],
-        "total visits": 1
+        key_country: "Germany",
+        key_cities: ["Berlin", "Bonn"],
+        key_visits: [3, 2],
+        key_total_visits: 1
     }
 ]
 
