@@ -72,9 +72,6 @@ class GameBoard:
                                             GameBoard.GamePaddle.KEYS[self.player][self.Directions.UP])
                 self.getscreen().onkeypress(self.move_down,
                                             GameBoard.GamePaddle.KEYS[self.player][self.Directions.DOWN])
-            else:
-                pass
-                # logging.error("Wrong paddle position")
 
         def move_up(self):
             if self.ycor() < self.getscreen().window_height()/2 - GameBoard.GamePaddle.PADDLE_STEP:
@@ -90,7 +87,7 @@ class GameBoard:
 
         BALL_SEED = 60
         BALL_SPEED_MAX = 10
-        BALL_STEP = 10
+        BALL_STEP_DEFAULT = 10
         BALL_SHAPE = "circle"
         BALL_COLOR = "white"
         BALL_SIZE = 20
@@ -102,7 +99,7 @@ class GameBoard:
             super().__init__(shape=self.BALL_SHAPE)
             self.color(self.BALL_COLOR)
             self.penup()
-            self.ball_step = self.BALL_STEP
+            self.ball_step = self.BALL_STEP_DEFAULT
             self.ball_speed = self.BALL_SEED
             self.getscreen().onkeypress(self.inc_speed, "plus")
             self.getscreen().onkeypress(self.dec_speed, "minus")
@@ -113,22 +110,10 @@ class GameBoard:
             self.setheading(random.SystemRandom().randint(RIGHT, FULL_ANGLE))
             self.showturtle()
 
-        def inc_step(self):
-            if self.ball_step <= self.BALL_STEP * 2:
-                pass
-                # self.ball_step += 1
-                # logging.warning(f"Ball step changed to {self.ball_step}")
-
         def inc_speed(self):
             if self.ball_speed >= self.BALL_SPEED_MAX:
                 self.ball_speed *= 0.9
                 # logging.warning(f"Ball speed changed to {self.ball_speed}")
-
-        def dec_step(self):
-            if self.ball_step > 0:
-                pass
-                # self.ball_step -= 1
-                # logging.warning(f"Ball step changed to {self.ball_step}")
 
         def dec_speed(self):
             if self.ball_speed <= self.BALL_SEED:
@@ -153,9 +138,7 @@ class GameBoard:
         def move(self):
             self.change_angle_if_collision_with_wall()
             self.forward(self.ball_step)
-            if self.check_if_outside() is False:
-                pass
-            else:
+            if self.check_if_outside() is not False:
                 self.hideturtle()
             self.getscreen().update()
 

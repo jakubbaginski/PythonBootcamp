@@ -15,15 +15,16 @@ import tkinter.messagebox as mb
 
 
 class PasswordManager(tt.ThemedTk):
-    TITLE = "Password Manager"
+    APP_TITLE = "Password Manager"
     IMAGE_WIDTH = 210
     IMAGE_HEIGHT = 200
     FONT = ('Arial', 11, 'bold')
     FONT2 = ('Courier', 11, '')
+    FILE_NAME = "password.json"
 
     def __init__(self):
         super(PasswordManager, self).__init__()
-        self.title(self.TITLE)
+        self.title(self.APP_TITLE)
         self.style = tt.ThemedStyle()
         self.style_setup()
         self.config(padx=45, pady=45)
@@ -135,10 +136,11 @@ class PasswordManager(tt.ThemedTk):
     def load_from_file(self):
         self.all_data: {str: {str: str}} = {}
         try:
-            with open("password.json", "r") as file:
+            with open(self.FILE_NAME, "r") as file:
                 self.all_data = json.load(file)
         except FileNotFoundError:
-            with open("password.json", "w") as _:
+            with open(self.FILE_NAME, "w") as _:
+                # new file created
                 pass
         except json.JSONDecodeError:
             # file is empty, do continue
@@ -151,7 +153,7 @@ class PasswordManager(tt.ThemedTk):
             self.load_from_file()
             hash_key = str(hash("".join([self.data['website'].get(), self.data['email'].get()])))
             self.all_data[hash_key] = {key: self.data[key].get() for key in self.data.keys()}
-            with open("password.json", "w") as file:
+            with open(self.FILE_NAME, "w") as file:
                 json.dump(self.all_data, file, indent=3, sort_keys=True)
                 self.update_entries()
                 mb.showinfo(message="Data saved successfully.")

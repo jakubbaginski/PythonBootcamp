@@ -1,4 +1,3 @@
-# import logging
 import random
 import time
 from turtle import Screen
@@ -32,7 +31,6 @@ class Game:
     @numba.jit(forceobj=True)
     def is_collision(self) -> bool:
         player_map: Path = self.player.get_shape_polygon()
-        # start_time = time.time()
         for car in self.car_manager.cars:
             car_map: Path = car.get_get_shape_polygon()
             if player_map.intersects_path(car_map) or \
@@ -49,7 +47,7 @@ class Game:
             if random.SystemRandom().randint(1, 6) == 1:
                 self.car_manager.generate_car()
             self.car_manager.move_increment = self.car_manager.STARTING_MOVE_DISTANCE + \
-                self.car_manager.MOVE_INCREMENT * (self.player.level - self.player.LEVEL)
+                self.car_manager.DEFAULT_MOVE_INCREMENT * (self.player.level - self.player.DEFAULT_LEVEL)
             self.car_manager.move_cars()
             self.score_board.level = self.player.level
             self.score_board.print_level()

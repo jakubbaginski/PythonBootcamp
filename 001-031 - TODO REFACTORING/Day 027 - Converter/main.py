@@ -13,16 +13,14 @@ def calculate_km_to_miles(value: float) -> str:
 class Converter(tk.Tk):
     WINDOW_WIDTH = 400
     WINDOW_HEIGHT = 100
-    TITLE = "Converter miles/km and km/miles"
+    APP_TITLE = "Converter miles/km and km/miles"
     INIT_OUTPUT = 0
     MILES_TEXT = "miles"
     KM_TEXT = "km"
 
     def __init__(self):
         super(Converter, self).__init__()
-        self.title(Converter.TITLE)
-        #self.minsize(width=Converter.WINDOW_WIDTH, height=Converter.WINDOW_HEIGHT)
-        #self.maxsize(width=Converter.WINDOW_WIDTH, height=Converter.WINDOW_HEIGHT)
+        self.title(Converter.APP_TITLE)
         self.config(padx=20, pady=20)
 
         self.input_variable = tk.StringVar()

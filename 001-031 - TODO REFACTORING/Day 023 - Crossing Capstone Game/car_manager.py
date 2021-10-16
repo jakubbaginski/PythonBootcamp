@@ -1,4 +1,3 @@
-# import logging
 import secrets
 import turtle
 
@@ -10,7 +9,7 @@ from numpy import array
 class CarManager:
 
     STARTING_MOVE_DISTANCE = 5
-    MOVE_INCREMENT = 10
+    DEFAULT_MOVE_INCREMENT = 10
     NUMBER_OF_CARS = 20
 
     class Car(turtle.Turtle):

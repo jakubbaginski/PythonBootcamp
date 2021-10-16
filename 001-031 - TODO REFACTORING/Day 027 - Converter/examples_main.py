@@ -1,7 +1,7 @@
 import random
 import time
-from tkinter import *
-from tkinter.ttk import Progressbar
+from tkinter import Tk, CENTER, GROOVE, N, E, S, W, END, StringVar, IntVar
+from tkinter.ttk import Progressbar, Label, Entry, Button, Checkbutton
 
 
 class MyClass:
@@ -46,6 +46,7 @@ class MyClass:
         self.progress_bar.grid(row=4, column=1, columnspan=3, sticky=N+E+S+W)
 
     def radio(self):
+        # do nothing function
         pass
 
     def test_command(self):

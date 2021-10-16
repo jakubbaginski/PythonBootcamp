@@ -199,7 +199,6 @@ class PomidoroApp(th.ThemedTk):
                        activeforeground=my_map,
                        activebackground=my_map,
                        disabledforeground=my_map,
-                       # foreground=map,
                        indicatoron=my_map
                        )
 

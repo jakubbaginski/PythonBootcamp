@@ -66,7 +66,8 @@
 # y.to_csv("girls.csv")
 
 import pandas
+index_name = "Primary Fur Color"
 data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv")
-data = pandas.DataFrame(data["Primary Fur Color"]).reset_index().set_index("Primary Fur Color")
-data = data.rename(columns={"index": "Count"}).groupby(level="Primary Fur Color").nunique(dropna=False)
+data = pandas.DataFrame(data[index_name]).reset_index().set_index(index_name)
+data = data.rename(columns={"index": "Count"}).groupby(level=index_name).nunique(dropna=False)
 data.to_csv("./new_data.csv")

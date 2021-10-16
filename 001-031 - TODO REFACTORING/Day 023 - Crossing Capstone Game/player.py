@@ -1,4 +1,3 @@
-# import logging
 import turtle
 from matplotlib.path import Path
 from numpy import array
@@ -9,7 +8,7 @@ class Player(turtle.Turtle):
     STARTING_POSITION = (0, -280)
     MOVE_DISTANCE = 10
     FINISH_LINE_Y = 280
-    LEVEL = 1
+    DEFAULT_LEVEL = 1
     TURTLE_H_UP_PIXELS = 16
     TURTLE_H_DOWN_PIXELS = 9
     TURTLE_WIDTH_PIXELS = 20
@@ -22,7 +21,7 @@ class Player(turtle.Turtle):
         self.goto(self.STARTING_POSITION)
         self.showturtle()
         self.setheading(90)
-        self.level = self.LEVEL
+        self.level = self.DEFAULT_LEVEL
         self.getscreen().onkeypress(self.move, "Up")
 
     def move(self) -> bool:

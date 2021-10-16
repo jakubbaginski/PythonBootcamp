@@ -38,4 +38,3 @@ while cont:
         cont = False
     except KeyError:
         print("Wrong character in the given text. Use [a-zA-Z]")
-        pass

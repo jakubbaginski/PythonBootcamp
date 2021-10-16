@@ -243,19 +243,24 @@ class GameBoard:
         self.screen.tracer(0)
         self.welcome_screen()
 
+    stamp_snake = "images/the_snake.gif"
+    stamp_game_over = "images/game_over.gif"
+    stamp_press_space = "images/press_space.gif"
+    stamp_score = "images/score.gif"
+
     def register_pictures(self):
-        self.screen.addshape("images/the_snake.gif")
-        self.screen.addshape("images/game_over.gif")
-        self.screen.addshape("images/press_space.gif")
-        self.screen.addshape("images/score.gif")
+        self.screen.addshape(self.stamp_snake)
+        self.screen.addshape(self.stamp_game_over)
+        self.screen.addshape(self.stamp_press_space)
+        self.screen.addshape(self.stamp_score)
         for i in range(0, 10):
             self.screen.addshape(f"images/{i}.gif")
 
     def welcome_screen(self):
         self.picture = GameBoard.MyTurtle(visible=False)
-        self.picture.make_stamp(shape="images/the_snake.gif")
+        self.picture.make_stamp(shape=self.stamp_snake)
         self.picture.setposition(0, -160)
-        self.picture.make_stamp(shape="images/press_space.gif")
+        self.picture.make_stamp(shape=self.stamp_press_space)
         self.screen.onkeypress(self.start_game, "space")
 
     def game_over_screen(self):
@@ -264,9 +269,9 @@ class GameBoard:
             turtle.hideturtle()
 
         self.picture.setposition(0, 0)
-        self.picture.make_stamp("images/game_over.gif")
+        self.picture.make_stamp(self.stamp_game_over)
         self.picture.setposition(self.picture.xcor() - 80, self.picture.ycor() - 80)
-        self.picture.make_stamp("images/score.gif")
+        self.picture.make_stamp(self.stamp_score)
         self.picture.setposition(self.picture.xcor() + 100, self.picture.ycor())
 
         score = f"{self.snake.score:03d}"
@@ -275,7 +280,7 @@ class GameBoard:
             self.picture.make_stamp(f"images/{digit}.gif")
 
         self.picture.setposition(0, self.picture.ycor() - 80)
-        self.picture.make_stamp("images/press_space.gif")
+        self.picture.make_stamp(self.stamp_press_space)
         self.screen.onkeypress(self.start_game, "space")
 
     def init_snake(self):
