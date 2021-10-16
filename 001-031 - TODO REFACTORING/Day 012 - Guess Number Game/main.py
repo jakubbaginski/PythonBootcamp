@@ -1,6 +1,6 @@
 from art import logo
 from replit import clear
-from random import randint
+from secrets import choice
 
 NUMBER_OF_GUESSES_EXPERT = 7
 NUMBER_OF_GUESSES_BEGGINER = 10
@@ -16,7 +16,7 @@ def game():
     if level == "P":
         number_of_guesses = NUMBER_OF_GUESSES_BEGGINER
 
-    number = randint(1,100)
+    number = choice(range(1, 101))
     guess = 0
 
     while number_of_guesses > 0 and guess != number:

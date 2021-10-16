@@ -22,7 +22,8 @@ setup(
         'ttkthemes',
         'Pillow',
         'future',
-        'twilio'
+        'twilio',
+        'replit'
     ],
     tests_require=[
         'pytest',
