@@ -3,7 +3,6 @@ import colorgram
 import turtle as t
 t.colormode(255)
 
-# colors = colorgram.extract("image.jpg", 20)
 colors = colorgram.extract("claudemonet.jpg", 20)
 
 colors_list = []

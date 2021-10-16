@@ -1,11 +1,6 @@
 from question_model import Question
-# from data import question_data
 from quiz_brain import QuizBrain
 from data import new_data
-
-# questions = []
-# for item in question_data:
-#    questions.append(Question(item["text"], item["answer"]))
 
 questions = []
 for item in new_data:

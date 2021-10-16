@@ -17,6 +17,6 @@ while is_the_machine_on:
         is_the_machine_on = False
     else:
         drink = my_menu.find_drink(command)
-        if drink is not None:
-            if my_coffee_maker.is_resource_sufficient(drink) and my_money_machine.make_payment(drink.cost):
-                my_coffee_maker.make_coffee(drink)
+        if drink is not None and \
+                my_coffee_maker.is_resource_sufficient(drink) and my_money_machine.make_payment(drink.cost):
+            my_coffee_maker.make_coffee(drink)

@@ -1,6 +1,6 @@
 import random
 import turtle as t
-from typing import Literal
+from typing import Literal, Union
 
 AllowedColorModes = Literal["one", "multi"]
 
@@ -20,8 +20,8 @@ class GameBoard:
     FOOD_COLOR = "DarkSeaGreen"
 
     DRAWING_SEED: str = "fastest"
-    GAME_SPEED = 200
-    MAX_GAME_SPEED = 4*GAME_SPEED
+    DEFAULT_GAME_SPEED = 200
+    MAX_GAME_SPEED = 4*DEFAULT_GAME_SPEED
     GAME_SPEED_STEP = 50
     GAME_LEVEL = 1
     MAX_GAME_LEVEL = 10*GAME_LEVEL
@@ -220,16 +220,16 @@ class GameBoard:
                 self.color_mode = "one"
             # logging.info(f"Change of color mode to {self.color_mode}")
 
-    frame: Frame = None
-    picture: MyTurtle = None
-    food: Food = None
-    snake: Snake = None
+    frame: Union[Frame, None] = None
+    picture: Union[MyTurtle, None] = None
+    food: Union[Food, None] = None
+    snake: Union[Snake, None] = None
 
     def __init__(self):
 
         self.game_started: bool = False
         self.semaphore: bool = True
-        self.game_speed = GameBoard.GAME_SPEED
+        self.game_speed = GameBoard.DEFAULT_GAME_SPEED
 
         self.screen = t.Screen()
         self.screen.title(GameBoard.TITLE)
@@ -295,7 +295,7 @@ class GameBoard:
                 turtle.clearstamps()
                 turtle.hideturtle()
 
-            self.game_speed = GameBoard.GAME_SPEED
+            self.game_speed = GameBoard.DEFAULT_GAME_SPEED
             self.game_started = True
             self.init_and_paint_frame()
             self.init_snake()
@@ -317,8 +317,7 @@ class GameBoard:
             elif self.game_started is True:
                 self.screen.ontimer(self.move_snake, self.game_speed)
                 self.food.generate_new_food(self.snake)
-            else:
-                pass
+
             self.scoreboard.print_score(self.snake.score, self.snake.level, self.game_speed)
             self.screen.update()
             if self.snake.score > self.scoreboard.highest_score:
@@ -327,6 +326,7 @@ class GameBoard:
             self.semaphore = True
 
     def do_nothing(self):
+        # an empty function used to provide no reaction to space key
         pass
 
     def register_keys(self) -> None:
