@@ -46,6 +46,7 @@ meters = {
     "coffee": "g"
 }
 
+
 def print_report():
     """
     Prints report from the coffee machine, example:
@@ -68,9 +69,9 @@ def check_resources(type_of_coffee):
              Otherwise, first element of the table is False and second contains name of missing ingredient
     """
     for resource_key in resources['ingredients']:
-        if resource_key in MENU[type_of_coffee]['ingredients']:
-            if resources['ingredients'][resource_key] < MENU[type_of_coffee]['ingredients'][resource_key]:
-                return [False, resource_key]
+        if resource_key in MENU[type_of_coffee]['ingredients'] and \
+                resources['ingredients'][resource_key] < MENU[type_of_coffee]['ingredients'][resource_key]:
+            return [False, resource_key]
     return [True, None]
 
 
@@ -89,7 +90,7 @@ def process_coins(type_of_coffee):
             amount = int(input(f"How many {coin_key}?: ")) * coins[coin_key]
             if amount > 0:
                 money += amount
-        except ValueError as error:
+        except ValueError:
             money += 0
     if money < value:
         print("Sorry that's not enough money. Money refunded.")
