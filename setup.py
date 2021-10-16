@@ -25,7 +25,8 @@ setup(
         'twilio',
         'replit',
         'pyclip',
-        'colorgram'
+        'colorgram',
+        'prettytable'
     ],
     tests_require=[
         'pytest',
