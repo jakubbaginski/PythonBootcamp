@@ -1,4 +1,4 @@
-import random
+import secrets
 import colorgram
 import turtle as t
 t.colormode(255)
@@ -34,7 +34,7 @@ my_turtle.setposition(-offset, -offset)
 
 for y in range(dots_in_line):
     for x in range(dots_in_line):
-        my_turtle.dot(DOT_SIZE, random.choice(colors_list))
+        my_turtle.dot(DOT_SIZE, secrets.choice(colors_list))
         my_turtle.setx(my_turtle.xcor() + DOT_SIZE + SPACE_BETWEEN_DOTS)
     my_turtle.setx(-offset)
     my_turtle.sety(my_turtle.ycor() + DOT_SIZE + SPACE_BETWEEN_DOTS)

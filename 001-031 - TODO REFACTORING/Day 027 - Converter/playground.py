@@ -1,4 +1,3 @@
-import logging
 import typing
 
 
@@ -50,14 +49,14 @@ class Test:
         try:
             self.color = kwargs['color']
             if type(self.color) is not str:
-                logging.warning("Wrong type of 'color' argument, assuming default value")
+                # logging.warning("Wrong type of 'color' argument, assuming default value")
                 raise TypeError
         except (KeyError, TypeError):
             self.color = "red"
         try:
             self.length = kwargs['length']
             if type(self.length) is not int:
-                logging.warning("Wrong type of 'length' argument, assuming default value")
+                # logging.warning("Wrong type of 'length' argument, assuming default value")
                 raise TypeError
         except (KeyError, TypeError):
             self.length = 0
@@ -65,7 +64,7 @@ class Test:
         # another way for defaulting - kwargs.get() method returning None if key is not found
         self.year = kwargs.get('year')
         if type(self.year) is not int or self.year is None:
-            logging.warning("Wrong type of 'year' argument, assuming default value")
+            # logging.warning("Wrong type of 'year' argument, assuming default value")
             self.year = 1900
 
     def print(self, *args) -> None:

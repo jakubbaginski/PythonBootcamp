@@ -1,4 +1,5 @@
 import logging
+import secrets
 import random
 import pyclip
 import json
@@ -123,7 +124,7 @@ class PasswordManager(tt.ThemedTk):
             1: {
                 'chars': [str(x) for x in range(0, 10)] + [x for x in "!@#$%^&*"],
                 'number': 6}}
-        pwd = numpy.concatenate([[random.choice(allowed_chars[i]['chars'])
+        pwd = numpy.concatenate([[secrets.choice(allowed_chars[i]['chars'])
                                   for _ in range(0, allowed_chars[i]['number'])]
                                  for i in range(0, len(allowed_chars))])
         random.shuffle(list(pwd))

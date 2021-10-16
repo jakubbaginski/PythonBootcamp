@@ -1,4 +1,3 @@
-import logging
 import turtle
 import pandas
 
@@ -16,14 +15,14 @@ class GameBoard:
         self.screen.setup(width=725, height=491)
         self.picture = turtle.Turtle(shape=self.FILE_MAP)
         self.picture.showturtle()
-        logging.basicConfig(level="INFO")
+        # logging.basicConfig(level="INFO")
         try:
             self.states: pandas.DataFrame = pandas.read_csv(self.FILE_TO_LEARN)
-            logging.warning(f"If you want to play from the scratch - delete {self.FILE_TO_LEARN} " +
-                            f"file before starting new game")
+            # logging.warning(f"If you want to play from the scratch - delete {self.FILE_TO_LEARN} " +
+            #                 f"file before starting new game")
         except FileNotFoundError:
             self.states: pandas.DataFrame = pandas.read_csv(self.FILE_50)
-            logging.info(f"New Game started.")
+            # logging.info(f"New Game started.")
         self.score = 0
 
     def game(self):

@@ -23,7 +23,9 @@ setup(
         'Pillow',
         'future',
         'twilio',
-        'replit'
+        'replit',
+        'pyclip',
+        'colorgram'
     ],
     tests_require=[
         'pytest',

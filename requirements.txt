@@ -11,3 +11,5 @@ replit~=3.2.4
 numpy~=1.20.3
 numba~=0.54.1
 matplotlib~=3.4.3
+pyclip~=0.5.4
+colorgram~

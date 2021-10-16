@@ -1,4 +1,3 @@
-import logging
 import random
 import turtle as t
 from typing import Literal
@@ -164,7 +163,7 @@ class GameBoard:
                 self.body["positions"].pop(0)
 
             if food is not None and self.head == food.position() and food.eat_food():
-                logging.info(f"Food is found at position {self.head}")
+                # logging.info(f"Food is found at position {self.head}")
                 self.snake_gets_longer()
 
             return not (self.check_tail_collision() or self.check_frame_collision())
@@ -174,13 +173,13 @@ class GameBoard:
             y = self.ycor()
             value = self.max_x_y * self.shape_size
             if x in (-value, value) or y in (-value, value):
-                logging.info(f"Frame Collision Detected! {(x, y)}, {value}")
+                # logging.info(f"Frame Collision Detected! {(x, y)}, {value}")
                 return True
             return False
 
         def check_tail_collision(self) -> bool:
             if (self.head in self.body["positions"]) is True:
-                logging.info(f"Tail Collision Detected! {self.head}")
+                # logging.info(f"Tail Collision Detected! {self.head}")
                 return True
             return False
 
@@ -207,19 +206,19 @@ class GameBoard:
         def level_up(self) -> None:
             if self.level < GameBoard.MAX_GAME_LEVEL:
                 self.level += 1
-                logging.info(f"Level up, Current level: {self.level}")
+                # logging.info(f"Level up, Current level: {self.level}")
 
         def level_down(self) -> None:
             if self.level > GameBoard.GAME_LEVEL:
                 self.level -= 1
-                logging.info(f"Level down, Current level: {self.level}")
+                # logging.info(f"Level down, Current level: {self.level}")
 
         def change_color_mode(self):
             if self.color_mode == "one":
                 self.color_mode = "multi"
             else:
                 self.color_mode = "one"
-            logging.info(f"Change of color mode to {self.color_mode}")
+            # logging.info(f"Change of color mode to {self.color_mode}")
 
     frame: Frame = None
     picture: MyTurtle = None
@@ -351,15 +350,15 @@ class GameBoard:
     def game_speed_up(self):
         if self.game_speed > GameBoard.GAME_SPEED_STEP:
             self.game_speed -= GameBoard.GAME_SPEED_STEP
-            logging.info(f"Speed up: {self.game_speed}")
+            # logging.info(f"Speed up: {self.game_speed}")
 
     def game_speed_down(self):
         if self.game_speed < GameBoard.MAX_GAME_SPEED:
             self.game_speed += GameBoard.GAME_SPEED_STEP
-            logging.info(f"Speed down {self.game_speed}")
+            # logging.info(f"Speed down {self.game_speed}")
 
     def mainloop(self):
-        logging.basicConfig(level=logging.INFO)
+        # logging.basicConfig(level=logging.INFO)
         self.screen.mainloop()
 
 

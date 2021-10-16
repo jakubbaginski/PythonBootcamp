@@ -1,5 +1,4 @@
 # ---------------------------- CONSTANTS ------------------------------- #
-import logging
 import threading
 import time
 import tkinter as tk
@@ -7,7 +6,7 @@ import tkinter.ttk as tkk
 import typing
 import ttkthemes as th
 
-logging.basicConfig(level=logging.ERROR)
+# logging.basicConfig(level=logging.ERROR)
 
 WHITE = "#FFFFFF"
 PINK = "#e2979c"
@@ -122,7 +121,7 @@ class PomidoroApp(th.ThemedTk):
         wait_sec = self.time_frames[self.period]['seconds'] - (time.time() - kwargs.get('start_time'))
         wait_sec = 0 if wait_sec < 0 else wait_sec
         self.canvas.itemconfig(self.timer_text, text=format_time(wait_sec))
-        logging.info(f" Period {self.period} : {self.time_frames[self.period]} -> {wait_sec}")
+        # logging.info(f" Period {self.period} : {self.time_frames[self.period]} -> {wait_sec}")
         self.progress.set(int(sum([item['seconds'] for item in self.time_frames[0:self.period+1]]) - wait_sec))
         if wait_sec > 0:
             self.timer.run()
@@ -160,7 +159,7 @@ class PomidoroApp(th.ThemedTk):
     # ---------------------------- Theme and Styles ----------------------- #
 
     def style_setup(self):
-        logging.info("Style configuration")
+        # logging.info("Style configuration")
         self.set_theme('yaru')
         self.style.configure('.',
                              font=(FONT_NAME, FONT_SIZE),

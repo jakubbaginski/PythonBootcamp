@@ -1,4 +1,3 @@
-import logging
 import random
 import turtle
 from typing import Literal
@@ -123,7 +122,7 @@ class GameBoard:
         def inc_speed(self):
             if self.ball_speed >= self.BALL_SPEED_MAX:
                 self.ball_speed *= 0.9
-                logging.warning(f"Ball speed changed to {self.ball_speed}")
+                # logging.warning(f"Ball speed changed to {self.ball_speed}")
 
         def dec_step(self):
             if self.ball_step > 0:
@@ -134,7 +133,7 @@ class GameBoard:
         def dec_speed(self):
             if self.ball_speed <= self.BALL_SEED:
                 self.ball_speed *= 1.1
-                logging.warning(f"Ball speed changed to {self.ball_speed}")
+                # logging.warning(f"Ball speed changed to {self.ball_speed}")
 
         def setheading(self, to_angle: float) -> None:
             """
@@ -205,7 +204,7 @@ class GameBoard:
             self.print_result([self.IMAGE_WIDTH*2, self.Y_POSITION], scores[PlayerNames.RIGHT])
 
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
+        # logging.basicConfig(level=logging.INFO)
         self.screen: turtle.Screen = turtle.Screen()
         self.screen.tracer(False)
         self.screen.setup(width=GameBoard.SCREEN_WIDTH, height=GameBoard.SCREEN_HEIGHT)
@@ -237,7 +236,7 @@ class GameBoard:
     def collision_of_game_paddle_and_ball(self):
 
         if self.semaphore is False:
-            logging.error("Recursion detected: skipping one move.")
+            # logging.error("Recursion detected: skipping one move.")
             return
 
         self.semaphore = False
@@ -261,16 +260,16 @@ class GameBoard:
                          self.ball.xcor() <=
                          self.game_paddle[paddle].xcor() + max(self.ball.BALL_SIZE, self.ball.ball_step)):
 
-                    logging.info(f"Distance to {paddle}: {self.ball.distance(self.game_paddle[paddle])}")
+                    # logging.info(f"Distance to {paddle}: {self.ball.distance(self.game_paddle[paddle])}")
                     if self.ball.distance(self.game_paddle[paddle]) < \
                             GameBoard.GamePaddle.PADDLE_MARGIN + self.ball.BALL_SIZE / 2:
-                        logging.info(f"Touched {self.game_paddle[paddle].player}")
+                        # logging.info(f"Touched {self.game_paddle[paddle].player}")
 
                         # each time paddle touches the ball speed is increasing
                         # self.ball.ball_step += .5
                         if self.ball.ball_speed * .9 >= self.ball.BALL_SPEED_MAX:
                             self.ball.ball_speed *= .9
-                            logging.info(f"Speed changed to {self.ball.ball_speed}")
+                            # logging.info(f"Speed changed to {self.ball.ball_speed}")
                         heading = self.ball.heading()
                         rand_heading = random.SystemRandom().randint(-self.ball.BALL_EXC_ANGLE*2,
                                                                      self.ball.BALL_EXC_ANGLE*2)
@@ -315,7 +314,7 @@ class GameBoard:
         result: Result = self.ball.check_if_outside()
         if result is not False:
             self.score[result] += 1
-            logging.info(f"{result}: {self.score[result]}")
+            # logging.info(f"{result}: {self.score[result]}")
             self.ball.start_position()
             self.print_scores()
         self.screen.ontimer(self.new_ball, GameBoard.NEW_BALL_DELAY)

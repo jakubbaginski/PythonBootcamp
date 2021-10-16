@@ -1,4 +1,3 @@
-import logging
 import random
 import time
 from tkinter import *
@@ -64,7 +63,7 @@ class MyClass:
         self.label.config(text=f"{new_text} {random.SystemRandom().randint(1, 100):03d}")
 
     def validate_entry(self, current_value, new_value):
-        logging.warning(f"'{current_value}' -> '{new_value}'")
+        # logging.warning(f"'{current_value}' -> '{new_value}'")
         if len(new_value) > 10:
             return False
         return True

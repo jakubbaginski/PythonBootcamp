@@ -1,4 +1,3 @@
-import logging
 import random
 import threading
 import tkinter.messagebox
@@ -10,7 +9,7 @@ import pandas
 from ttkthemes import *
 from PIL import Image, ImageTk
 
-logging.basicConfig(level=logging.WARN)
+# logging.basicConfig(level=logging.WARN)
 
 
 class FlashCards(ThemedTk):
@@ -123,7 +122,7 @@ class FlashCards(ThemedTk):
         self.canvas.update()
 
     def generate_ui(self):
-        logging.info(self.style.get_themes())
+        # logging.info(self.style.get_themes())
         self.title(self.TITLE)
 
         self.config(padx=20, pady=20, background=self.BACKGROUND_COLOR, highlightcolor=self.BACKGROUND_COLOR)
