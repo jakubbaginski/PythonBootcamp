@@ -1,5 +1,5 @@
 # import logging
-import random
+import secrets
 import turtle
 
 import numba
@@ -33,12 +33,12 @@ class CarManager:
 
         def generate_position(self) -> (float, float):
             new_x = self.getscreen().window_width()/2
-            new_y = random.randint(int(-self.getscreen().window_height()/2 + self.MARGIN),
-                                   int(self.getscreen().window_height()/2 - self.MARGIN))
+            new_y = secrets.choice(range(int(-self.getscreen().window_height()/2 + self.MARGIN),
+                                   int(self.getscreen().window_height()/2 - self.MARGIN)-1))
             return turtle.Vec2D(float(new_x), float(new_y))
 
         def select_color(self):
-            return random.choice(self.COLORS)
+            return secrets.choice(self.COLORS)
 
         @numba.jit(forceobj=True)
         def get_get_shape_polygon(self) -> Path:

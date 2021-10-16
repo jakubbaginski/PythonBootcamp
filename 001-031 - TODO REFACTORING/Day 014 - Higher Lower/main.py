@@ -1,5 +1,5 @@
 import os
-import random
+import secrets
 from art import logo, vs
 from game_data import data
 
@@ -9,7 +9,7 @@ def clear():
 
 
 def select_next(data_set):
-    next_set = random.choice(data_set)
+    next_set = secrets.choice(data_set)
     data_set.remove(next_set)
     return next_set
 

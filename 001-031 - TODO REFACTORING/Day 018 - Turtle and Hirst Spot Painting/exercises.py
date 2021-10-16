@@ -1,5 +1,4 @@
-import random
-import turtle
+import secrets
 from turtle import Turtle, Screen
 
 tim = Turtle()
@@ -13,7 +12,9 @@ tim.speed(0)
 
 
 def random_color():
-    return f"#{random.randint(0, 255):02X}{random.randint(0, 255):02X}{random.randint(0, 255):02X}"
+    def random_part():
+        return secrets.choice(range(0, 256))
+    return f"#{random_part():02X}{random_part():02X}{random_part():02X}"
 
 
 # Position to start from
@@ -44,8 +45,8 @@ tim.forward(100)
 tim.right(90)
 tim.pendown()
 
-#Challenge 3
-#Figures with random colors
+# Challenge 3
+# Figures with random colors
 tim.left(90)
 for figure in range(3, 15):
     tim.pencolor(random_color())
@@ -81,7 +82,7 @@ print("Press Return to exit Random Walk")
 
 while continue_walk:
     tim.pencolor(random_color())
-    tim.right(random.choice((0, 90, 180, 270)))
+    tim.right(secrets.choice((0, 90, 180, 270)))
     tim.forward(20)
 
 
@@ -100,4 +101,3 @@ for _ in range(int(360/step)):
 
 
 screen.exitonclick()
-
