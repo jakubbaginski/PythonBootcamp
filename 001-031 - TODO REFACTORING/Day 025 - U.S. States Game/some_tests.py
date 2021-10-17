@@ -4,17 +4,19 @@ import csv
 import datetime
 import pandas
 
+file_name = "weather_data.csv"
+
 
 def test_weather_data():
 
-    with open("weather_data.csv") as file:
+    with open(file_name) as file:
         data = prettytable.from_csv(file)
         print(data)
 
     data = []
     temperatures = []
 
-    with open("weather_data.csv") as file:
+    with open(file_name) as file:
         data_from_file = csv.reader(file)
         for row in data_from_file:
             if data_from_file.line_num == 1:
@@ -36,7 +38,7 @@ def test_weather_data():
 
 def test_weather_data_2():
 
-    data = pandas.read_csv("weather_data.csv")
+    data = pandas.read_csv(file_name)
     print(data.info(verbose=True))
     print(data)
     data = data[data["temp"] > 12].astype({'temp': 'float64'}).sort_values(by='condition', ascending=False)
