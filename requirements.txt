@@ -14,3 +14,5 @@ matplotlib~=3.4.3
 pyclip~=0.5.4
 colorgram~
 prettytable~=2.2.1
+pytest~
+pytest-runner~
