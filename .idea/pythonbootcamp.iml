@@ -9,7 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/pythonbootcamp.egg-info" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (pythonbootcamp)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (pythonbootcamp)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
