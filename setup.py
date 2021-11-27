@@ -16,7 +16,7 @@ setup(
     license='GPU',
     license_files=['LICENSE'],
     install_requires=[
-        'panda',
+        'pandas',
         'setuptools',
         'requests',
         'ttkthemes',
@@ -24,13 +24,14 @@ setup(
         'future',
         'twilio',
         'replit',
-        'pyclip',
-        'colorgram',
+    #    'pyclip',
+        'colorgram.py',
         'prettytable'
     ],
     tests_require=[
         'pytest',
-        'pytest-runner'
+        'pytest-runner',
+        'pytest-cov'
     ]
 
 )
